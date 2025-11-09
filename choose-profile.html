@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Profile - Connect Legal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1c73ea;
+            --primary-purple: #4d3abe;
+            --magenta: #C74B8D;
+            --light-purple: rgba(77, 58, 190, 0.1);
+            --dark-grey: #111111;
+            --light-grey: #F8F8F8;
+            --border-grey: #E0E0E0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .profile-container {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Left Column - Background Section */
+        .left-section {
+            background: linear-gradient(135deg, #1c73ea 0%, #4d3abe 50%, #1c73ea 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 33.333333%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start;
+            padding: 2rem;
+            z-index: 1000;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .left-section::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(77, 58, 190, 0.3) 0%, transparent 70%);
+            top: -50%;
+            left: -50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container img {
+            width: 150px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .logo-container a {
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .logo-container a:hover {
+            opacity: 0.9;
+        }
+
+        /* Right Column - Content Section */
+        .right-section {
+            background-color: var(--light-grey);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            margin-left: 33.333333%;
+            width: 66.666667%;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 66.666667%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            background-color: var(--light-grey);
+            z-index: 999;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-for-lawyers {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-for-lawyers:hover {
+            background-color: #1557b8;
+            color: white;
+        }
+
+        .btn-login-nav {
+            background-color: white;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login-nav:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        /* Content Container */
+        .content-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            padding-top: calc(80px + 2rem);
+            min-height: 100vh;
+            height: 100vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .content-wrapper {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .main-heading {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark-grey);
+            margin-bottom: 1rem;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .main-heading .highlight {
+            color: var(--primary-blue);
+        }
+
+        .sub-heading {
+            color: var(--dark-grey);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Profile Cards */
+        .profile-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .profile-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-description {
+            color: var(--dark-grey);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .signup-link-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .signup-link {
+            color: var(--primary-purple);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .signup-link:hover {
+            color: #3d2f95;
+            text-decoration: none;
+        }
+
+        .signup-icon {
+            width: 32px;
+            height: 32px;
+            border: 2px solid rgba(77, 58, 190, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(77, 58, 190, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover .signup-icon {
+            border-color: var(--primary-purple);
+            background-color: rgba(77, 58, 190, 0.2);
+        }
+
+        .signup-icon i {
+            color: var(--primary-purple);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991.98px) {
+            .left-section {
+                display: none;
+            }
+
+            .right-section {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .top-nav {
+                width: 100%;
+            }
+
+            .content-container {
+                padding-top: calc(2rem + 80px);
+            }
+
+            .main-heading {
+                font-size: 2.5rem;
+            }
+
+            .sub-heading {
+                font-size: 1rem;
+                margin-bottom: 2.5rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .content-container {
+                padding: 1.5rem;
+            }
+
+            .main-heading {
+                font-size: 2rem;
+            }
+
+            .profile-card {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .top-nav {
+                padding: 1rem;
+                gap: 0.5rem;
+            }
+
+            .btn-for-lawyers,
+            .btn-login-nav {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .content-container {
+                padding: 1rem;
+            }
+
+            .main-heading {
+                font-size: 1.75rem;
+            }
+
+            .sub-heading {
+                font-size: 0.95rem;
+                margin-bottom: 2rem;
+            }
+
+            .profile-card {
+                padding: 1.25rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+            }
+
+            .signup-link {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Left Section - Background with Logo -->
+        <div class="left-section col-lg-4 d-none d-lg-flex">
+            <div class="logo-container">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="Dubai Lawyers Online">
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Section - Content -->
+        <div class="right-section col-lg-8 col-12">
+            <!-- Top Navigation -->
+            <div class="top-nav">
+                <a href="find-a-lawyer.html" class="btn btn-for-lawyers">For Lawyers</a>
+                <a href="login.html" class="btn btn-login-nav">Login</a>
+            </div>
+
+            <!-- Content Container -->
+            <div class="content-container">
+                <div class="content-wrapper">
+                    <h1 class="main-heading">
+                        Join Our <span class="highlight">Legal Advice</span> Platform
+                    </h1>
+                    <p class="sub-heading">
+                        Become part of the fastest growing legal advice network in the Middle East.
+                    </p>
+
+                    <!-- Profile Cards -->
+                    <div class="profile-cards">
+                        <!-- Lawyer Card -->
+                        <div class="profile-card" onclick="window.location.href='#'">
+                            <h3 class="card-title">Are you a lawyer?</h3>
+                            <p class="card-description">
+                                Expand your reach & connect with clients.
+                            </p>
+                            <div class="signup-link-wrapper">
+                                <a href="create-profile.html" class="signup-link">Sign Up Now</a>
+                                <div class="signup-icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Client Card -->
+                        <div class="profile-card" onclick="window.location.href='#'">
+                            <h3 class="card-title">Looking for legal advice?</h3>
+                            <p class="card-description">
+                                Resolve your legal concerns with professional assistance.
+                            </p>
+                            <div class="signup-link-wrapper">
+                                <a href="create-profile.html" class="signup-link">Sign Up Now</a>
+                                <div class="signup-icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Card click handlers (optional - cards already have onclick)
+        document.querySelectorAll('.profile-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Prevent double navigation if link is clicked
+                if (e.target.tagName === 'A') {
+                    return;
+                }
+                // Add navigation logic based on card
+                const cardTitle = this.querySelector('.card-title').textContent;
+                console.log('Card clicked:', cardTitle);
+            });
+        });
+    </script>
+</body>
+</html>
+
